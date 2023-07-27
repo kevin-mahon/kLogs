@@ -27,6 +27,7 @@ class kLogger():
             self.logger.setLevel(loglevel.upper())
         else:
             self.logger.setLevel(logging.DEBUG)
+
         if logfile:
             self.ch = logging.FileHandler(logfile)
         else:
@@ -55,10 +56,31 @@ class kLogger():
         self.logger.critical(message, stacklevel=2, stack_info=True)
 
     def setLevel(self, level):
+        self.loglevel = level.upper()
         self.logger.setLevel(level.upper())
         self.ch.setLevel(level.upper())
 
+    def setFile(self, file):
+        self.logfile = file
+        if file:
+            self.logger.handlers.clear()
+            self.logger = None
+            self.logger = logging.getLogger(self.tag)
 
+            if self.loglevel:
+                self.logger.setLevel(self.loglevel.upper())
+            else:
+                self.logger.setLevel(logging.DEBUG)
+
+            self.ch = logging.FileHandler(self.logfile)
+
+            if self.loglevel:
+                self.ch.setLevel(self.loglevel.upper())
+            else:
+                self.ch.setLevel(logging.DEBUG)
+
+            self.ch.setFormatter(kFormatter())
+            self.logger.addHandler(self.ch)
 
 # create format
 class kFormatter(logging.Formatter):
@@ -106,3 +128,4 @@ if __name__ == "__main__":
         test(args.file, args.level)
     elif args.path:
         add_to_directory(args.path)
+
