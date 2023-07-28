@@ -2,7 +2,9 @@
 Small logging utility for uniform format, color, and some helper scripts to add to files in directory.
 
 Copy to your directory and call:
+```
 python klogs.py -p .
+```
 To add the import and log to each directory
 
 You can use like so:
