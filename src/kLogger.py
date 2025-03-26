@@ -1,7 +1,7 @@
 import logging
 import inspect
 from executing import Source
-from kFormatter import kFormatter
+from kFormatter import kColorFormatter, kNoColorFormatter
 
 class kLogger():
 
@@ -25,7 +25,10 @@ class kLogger():
         else:
             self.ch.setLevel(logging.DEBUG)
 
-        self.ch.setFormatter(kFormatter())
+        if not logfile:
+            self.ch.setFormatter(kColorFormatter())
+        else:
+            self.ch.setFormatter(kNoColorFormatter())
         self.logger.addHandler(self.ch)
 
     def __call__(self, *args):

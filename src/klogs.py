@@ -3,12 +3,17 @@ import argparse
 from kLogger import kLogger
 
 def test(logfile, loglevel):
+    #test creation
     log = kLogger("klogs", logfile, loglevel)
+
+    #test default usage
     log.debug("debug message")
     log.info("info message")
     log.warning("warning message")
     log.error("error message")
     log.critical("critical message")
+
+    #test calls
     log()
     x = 10
     log(x)
