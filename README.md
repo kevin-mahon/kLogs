@@ -4,7 +4,7 @@ Small logging utility for uniform format, color
 Docs are WIP
 
 You can use like so:
-```
+```python
     log = klogs.kLogger(level, outfile)
     log.debug("debug statement")
     log.info("info statement")
@@ -12,8 +12,8 @@ You can use like so:
     log.error("error statement")
     log.critical("critical statement")
 ```
-```
-klogs - DEBUG - debug message (klogs.py:7)
+```none
+\x1b[34;20mklogs - DEBUG - debug message (klogs.py:7)
 klogs - INFO - info message (klogs.py:8)
 klogs - WARNING - warning message (klogs.py:9)
 klogs - ERROR - error message (klogs.py:10)
@@ -28,7 +28,7 @@ Stack (most recent call last):
 
 Or 
 
-```
+```python
     log()
     x = 10
     log(x)
