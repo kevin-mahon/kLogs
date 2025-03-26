@@ -12,8 +12,9 @@ You can use like so:
     log.error("error statement")
     log.critical("critical statement")
 ```
-```none
-\x1b[34;20mklogs - DEBUG - debug message (klogs.py:7)
+Output:
+```
+klogs - DEBUG - debug message (klogs.py:7)
 klogs - INFO - info message (klogs.py:8)
 klogs - WARNING - warning message (klogs.py:9)
 klogs - ERROR - error message (klogs.py:10)
