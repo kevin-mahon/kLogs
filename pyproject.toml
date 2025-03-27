@@ -5,9 +5,12 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools]
 py-modules = []
 
+[tool.setuptools.packages]
+find = {} 
+
 [project]
 name = "kLogs"
-version = "0.1.0"
+version = "0.1.1"
 readme = {file = "README.md", content-type = "text/markdown"}
 keywords = ["log", "logging"]
 authors = [

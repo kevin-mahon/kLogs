@@ -1,7 +1,7 @@
 import logging
 import inspect
 from executing import Source
-from kFormatter import kColorFormatter, kNoColorFormatter
+from klogs.kFormatter import kColorFormatter, kNoColorFormatter
 
 class kLogger():
 
