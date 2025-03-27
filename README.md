@@ -2,7 +2,18 @@
 
 Small logging utility for uniform format, color
 
-You can use like so:
+## Features:
+- [ ] Easy to use log format language
+- [ ] Search
+- [ ] Open source at line
+- [ ] log and assert
+
+## Installation
+```
+pip install klogs-util
+```
+
+## Usage
 ```python
     log = klogs.kLogger(level, outfile)
     log.debug("debug statement")
@@ -39,18 +50,3 @@ Which will produce:
    klogs - INFO -  (klogs.py:12)
    klogs - INFO - x | 10 (klogs.py:14)
 ```
- 
-
-## Features:
-- [ ] Easy to use log format language
-- [ ] Search
-- [ ] Open source at line
-- [ ] log and assert
-
-## Installation
-```
-pip install klogs-util
-```
-
-## Usage
-WIP
