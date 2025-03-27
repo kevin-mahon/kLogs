@@ -1,7 +1,6 @@
 # kLogs
-Small logging utility for uniform format, color
 
-Docs are WIP
+Small logging utility for uniform format, color
 
 You can use like so:
 ```python
@@ -49,7 +48,9 @@ Which will produce:
 - [ ] log and assert
 
 ## Installation
-WIP
+```
+pip install klogs-util
+```
 
 ## Usage
 WIP
