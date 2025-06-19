@@ -66,3 +66,10 @@ class kLogger():
             self.ch.setFormatter(kNoColorFormatter())
             self.ch.setLevel(self.loglevel.upper())
             self.logger.addHandler(self.ch)
+
+    def addFile(self, file):
+        ch = logging.FileHandler(file)
+        ch.setFormatter(kNoColorFormatter())
+        ch.setLevel(self.loglevel.upper())
+        self.logger.addHandler(ch)
+        
