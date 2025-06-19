@@ -6,29 +6,22 @@ from klogs.kFormatter import kColorFormatter, kNoColorFormatter
 class kLogger():
 
     def __init__(self, tag, logfile=None, loglevel="DEBUG"):
+        if not loglevel:
+            loglevel = "DEBUG"
         self.tag = tag 
         self.logfile = logfile
         self.loglevel = loglevel
         self.logger = logging.getLogger(self.tag)
+        self.logger.setLevel(self.loglevel.upper())
 
-        if loglevel:
-            self.logger.setLevel(loglevel.upper())
-        else:
-            self.logger.setLevel(logging.DEBUG)
-
-        if logfile:
-            self.ch = logging.FileHandler(logfile)
-        else:
+        if not self.logfile:
             self.ch = logging.StreamHandler()
-        if loglevel:
-            self.ch.setLevel(loglevel.upper())
-        else:
-            self.ch.setLevel(logging.DEBUG)
-
-        if not logfile:
             self.ch.setFormatter(kColorFormatter())
         else:
+            self.ch = logging.FileHandler(self.logfile)
             self.ch.setFormatter(kNoColorFormatter())
+        self.ch.setLevel(self.loglevel.upper())
+
         if not self.logger.handlers:
             self.logger.addHandler(self.ch)
 

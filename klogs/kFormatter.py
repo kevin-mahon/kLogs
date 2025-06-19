@@ -25,14 +25,14 @@ class kColorFormatter(kFormatter):
         formatter = logging.Formatter(log_fmt)
         return formatter.format(record)
 
-class kNoColorFormatter(logging.Formatter):
+class kNoColorFormatter(kFormatter):
     #format dictionary
     FORMATS = {
-        logging.DEBUG: kFormatter.format + kFormatter.reset,
-        logging.INFO: kFormatter.format + kFormatter.reset,
-        logging.WARNING: kFormatter.format + kFormatter.reset,
-        logging.ERROR: kFormatter.format + kFormatter.reset,
-        logging.CRITICAL: kFormatter.format + kFormatter.reset
+        logging.DEBUG: kFormatter.format,
+        logging.INFO: kFormatter.format,
+        logging.WARNING: kFormatter.format,
+        logging.ERROR: kFormatter.format,
+        logging.CRITICAL: kFormatter.format
     }
 
     def format(self, record):
