@@ -52,13 +52,14 @@ class kLogger:
         self.logger.critical(message, stacklevel=2, stack_info=True)
 
     def setLevel(self, level):
-        self.loglevel = level.upper()
-        self.logger.setLevel(level.upper())
-        self.ch.setLevel(level.upper())
+        if level:
+            self.loglevel = level.upper()
+            self.logger.setLevel(level.upper())
+            self.ch.setLevel(level.upper())
 
     def setFile(self, file):
-        self.logfile = file
         if file:
+            self.logfile = file
             self.logger.handlers.clear()
             self.logger.setLevel(self.loglevel.upper())
 
