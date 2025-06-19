@@ -73,5 +73,5 @@ class kLogger:
         ch.setLevel(self.loglevel.upper())
         self.logger.addHandler(ch)
         
-def get_logger(tag, logfile, loglevel):
+def get_logger(tag, logfile=None, loglevel=None):
     return kLogger(tag, logfile, loglevel)
