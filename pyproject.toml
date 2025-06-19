@@ -9,7 +9,7 @@ py-modules = []
 find = {} 
 
 [project]
-name = "kLogs"
+name = "kLogs-util"
 version = "0.1.1"
 readme = {file = "README.md", content-type = "text/markdown"}
 keywords = ["log", "logging"]

@@ -29,7 +29,8 @@ class kLogger():
             self.ch.setFormatter(kColorFormatter())
         else:
             self.ch.setFormatter(kNoColorFormatter())
-        self.logger.addHandler(self.ch)
+        if not self.logger.handlers:
+            self.logger.addHandler(self.ch)
 
     def __call__(self, *args):
         if args:
