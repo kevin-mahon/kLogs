@@ -15,7 +15,8 @@ pip install klogs-util
 
 ## Usage
 ```python
-    log = klogs.kLogger(level, outfile)
+    from klogs import get_logger
+    log = get_logger(tag, level, outfile)
     log.debug("debug statement")
     log.info("info statement")
     log.warning("warning statement")
@@ -24,15 +25,15 @@ pip install klogs-util
 ```
 Output:
 ```
-klogs - DEBUG - debug message (klogs.py:7)
-klogs - INFO - info message (klogs.py:8)
-klogs - WARNING - warning message (klogs.py:9)
-klogs - ERROR - error message (klogs.py:10)
-klogs - CRITICAL - critical message (klogs.py:11)
+<tag> - DEBUG - debug message (test.py:7)
+<tag> - INFO - info message (test.py:8)
+<tag> - WARNING - warning message (test.py:9)
+<tag> - ERROR - error message (test.py:10)
+<tag> - CRITICAL - critical message (test.py:11)
 Stack (most recent call last):
-  File "/Users/kevin/coding/kLogs/src/klogs.py", line 26, in <module>
+  File "/Users/kevin/coding/kLogs/test.py", line 26, in <module>
     test(args.file, args.level)
-  File "/Users/kevin/coding/kLogs/src/klogs.py", line 11, in test
+  File "/Users/kevin/coding/kLogs/test.py", line 11, in test
     log.critical("critical message")
 
 ```
@@ -47,6 +48,6 @@ Or
 
 Which will produce:
 ```
-   klogs - INFO -  (klogs.py:12)
-   klogs - INFO - x | 10 (klogs.py:14)
+   <tag> - INFO -  (test.py:12)
+   <tag> - INFO - x | 10 (test.py:14)
 ```
