@@ -1,7 +1,7 @@
 import logging
 import inspect
 from executing import Source
-from klogs.kFormatter import kColorFormatter, kNoColorFormatter
+from kFormatter import kColorFormatter, kNoColorFormatter
 
 class kLogger():
 
@@ -60,20 +60,9 @@ class kLogger():
         self.logfile = file
         if file:
             self.logger.handlers.clear()
-            self.logger = None
-            self.logger = logging.getLogger(self.tag)
-
-            if self.loglevel:
-                self.logger.setLevel(self.loglevel.upper())
-            else:
-                self.logger.setLevel(logging.DEBUG)
+            self.logger.setLevel(self.loglevel.upper())
 
             self.ch = logging.FileHandler(self.logfile)
-
-            if self.loglevel:
-                self.ch.setLevel(self.loglevel.upper())
-            else:
-                self.ch.setLevel(logging.DEBUG)
-
-            self.ch.setFormatter(kFormatter())
+            self.ch.setFormatter(kNoColorFormatter())
+            self.ch.setLevel(self.loglevel.upper())
             self.logger.addHandler(self.ch)
