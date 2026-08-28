@@ -2,7 +2,7 @@ import logging
 import argparse
 import threading
 import multiprocessing as mp
-from kLogger import kLogger
+from .kLogger import kLogger
 
 
 def basic_test(log):
@@ -48,7 +48,6 @@ def test_threads(logfile, loglevel):
         print(info_string)
     basic_test(log)
 
-
 def process(logfile, loglevel):
     log = kLogger("klogs", logfile, loglevel)
     log.debug("debug message")
@@ -82,7 +81,10 @@ def test_process(logfile, loglevel):
     else:
         print(info_string)
     basic_test(log)
-    
+
+def test_timestamp(logfile, loglevel):
+    log = kLogger("klogs_timestamps", logfile, loglevel, True)
+    basic_test(log)
 
 if __name__ == "__main__":
     #argparsing 
@@ -114,4 +116,11 @@ if __name__ == "__main__":
     else:
         print(info_string)
     test_process(args.file, args.level)
-
+    info_string = "######## Testing timestamp usage ########"
+    if args.file:
+        with open(args.file, "a") as fd:
+            fd.write(info_string)
+            fd.write("\n")
+    else:
+        print(info_string)
+    test_timestamp(args.file, args.level)
