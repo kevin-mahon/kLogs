@@ -9,34 +9,37 @@ class kFormatter(logging.Formatter):
     reset = "\x1b[0m"
     format = "%(name)s - %(levelname)s - %(message)s (%(filename)s:%(lineno)d)"
 
-
 class kColorFormatter(kFormatter):
     #format dictionary
     FORMATS = {
-        logging.DEBUG: kFormatter.grey + kFormatter.format + kFormatter.reset,
-        logging.INFO: kFormatter.blue + kFormatter.format + kFormatter.reset,
-        logging.WARNING: kFormatter.yellow + kFormatter.format + kFormatter.reset,
-        logging.ERROR: kFormatter.red + kFormatter.format + kFormatter.reset,
-        logging.CRITICAL: kFormatter.bold_red + kFormatter.format + kFormatter.reset
+        logging.DEBUG: kFormatter.grey,
+        logging.INFO: kFormatter.blue,
+        logging.WARNING: kFormatter.yellow,
+        logging.ERROR: kFormatter.red,
+        logging.CRITICAL: kFormatter.bold_red
     }
 
+    def __init__(self, timestamp=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.timestamp_flag = timestamp
+
     def format(self, record):
-        log_fmt = self.FORMATS.get(record.levelno)
-        formatter = logging.Formatter(log_fmt)
+        color_fmt = self.FORMATS.get(record.levelno)
+        if self.timestamp_flag:
+            formatter = logging.Formatter(color_fmt + "%(asctime)s: " + kFormatter.format + kFormatter.reset, datefmt='%Y-%m-%d %H:%M:%S')
+        else:
+            formatter = logging.Formatter(color_fmt + kFormatter.format + kFormatter.reset)
         return formatter.format(record)
 
 class kNoColorFormatter(kFormatter):
-    #format dictionary
-    FORMATS = {
-        logging.DEBUG: kFormatter.format,
-        logging.INFO: kFormatter.format,
-        logging.WARNING: kFormatter.format,
-        logging.ERROR: kFormatter.format,
-        logging.CRITICAL: kFormatter.format
-    }
+    def __init__(self, timestamp=False, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.timestamp_flag = timestamp
 
     def format(self, record):
-        log_fmt = self.FORMATS.get(record.levelno)
-        formatter = logging.Formatter(log_fmt)
+        if self.timestamp_flag:
+            formatter = logging.Formatter("%(asctime)s: " + kFormatter.format, datefmt='%Y-%m-%d %H:%M:%S')
+        else:
+            formatter = logging.Formatter(kFormatter.format)
         return formatter.format(record)
 

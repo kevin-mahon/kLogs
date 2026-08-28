@@ -5,7 +5,7 @@ from .kFormatter import kColorFormatter, kNoColorFormatter
 
 class kLogger:
 
-    def __init__(self, tag, logfile=None, loglevel="DEBUG"):
+    def __init__(self, tag, logfile=None, loglevel="DEBUG", timestamp=False):
         if not loglevel:
             loglevel = "DEBUG"
         self.tag = tag 
@@ -16,10 +16,10 @@ class kLogger:
 
         if not self.logfile:
             self.ch = logging.StreamHandler()
-            self.ch.setFormatter(kColorFormatter())
+            self.ch.setFormatter(kColorFormatter(timestamp))
         else:
             self.ch = logging.FileHandler(self.logfile)
-            self.ch.setFormatter(kNoColorFormatter())
+            self.ch.setFormatter(kNoColorFormatter(timestamp))
         self.ch.setLevel(self.loglevel.upper())
 
         if not self.logger.handlers:
@@ -32,7 +32,7 @@ class kLogger:
                 callNode = Source.executing(callFrame).node
                 source = Source.for_frame(callFrame)
                 expression = source.asttokens().get_text(callNode.args[0])
-                self.logger.info(f'{expression} | {arg}', stacklevel=2)
+                self.logger.info(f"{expression} | {arg}", stacklevel=2)
         else:
             self.logger.info("", stacklevel=2)
 
@@ -74,5 +74,5 @@ class kLogger:
         ch.setLevel(self.loglevel.upper())
         self.logger.addHandler(ch)
         
-def get_logger(tag, logfile=None, loglevel=None):
-    return kLogger(tag, logfile, loglevel)
+def get_logger(tag, timestamp=False, logfile=None, loglevel=None):
+    return kLogger(tag, logfile, loglevel, timestamp)
