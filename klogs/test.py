@@ -2,7 +2,7 @@ import logging
 import argparse
 import threading
 import multiprocessing as mp
-from .kLogger import kLogger
+from klogs.kLogger import kLogger
 
 
 def basic_test(log):
