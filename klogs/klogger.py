@@ -32,10 +32,11 @@ class kLogger:
             for arg in args:
                 currentframe = inspect.currentframe()
                 callFrame = currentframe.f_back if currentframe is not None else None
-                callNode = Source.executing(callFrame).node
-                source = Source.for_frame(callFrame)
-                expression = source.asttokens().get_text(callNode.args[0])
-                self.logger.info(f"{expression} | {arg}", stacklevel=2)
+                if callFrame:
+                    callNode = Source.executing(callFrame).node
+                    source = Source.for_frame(callFrame)
+                    expression = source.asttokens().get_text(callNode.args[0])
+                    self.logger.info(f"{expression} | {arg}", stacklevel=2)
         else:
             self.logger.info("", stacklevel=2)
 
