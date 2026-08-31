@@ -21,9 +21,13 @@ dependencies=[
     "executing",
     "asttokens",
 ]
-license = "GNU"          # or whatever SPDX expression applies
 license-files = ["LICENSE"]
 
 [project.urls]
 Repository = "https://github.com/kevin-mahon/kLogs/tree/main"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.16.5",
+]
 

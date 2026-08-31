@@ -1,14 +1,16 @@
-import logging
 import inspect
+import logging
+
 from executing import Source
-from .kFormatter import kColorFormatter, kNoColorFormatter
+
+from .kformatter import kColorFormatter, kNoColorFormatter
+
 
 class kLogger:
-
     def __init__(self, tag, logfile=None, loglevel="DEBUG", timestamp=False):
         if not loglevel:
             loglevel = "DEBUG"
-        self.tag = tag 
+        self.tag = tag
         self.logfile = logfile
         self.loglevel = loglevel
         self.logger = logging.getLogger(self.tag)
@@ -73,6 +75,7 @@ class kLogger:
         ch.setFormatter(kNoColorFormatter())
         ch.setLevel(self.loglevel.upper())
         self.logger.addHandler(ch)
-        
+
+
 def get_logger(tag, timestamp=False, logfile=None, loglevel=None):
     return kLogger(tag, logfile, loglevel, timestamp)

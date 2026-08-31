@@ -1,31 +1,33 @@
-import logging
 import argparse
-import threading
 import multiprocessing as mp
-from klogs.kLogger import kLogger
+import threading
+
+from klogs.klogger import kLogger
 
 
 def basic_test(log):
-    #test default usage
+    # test default usage
     log.debug("debug message")
     log.info("info message")
     log.warning("warning message")
     log.error("error message")
     log.critical("critical message")
 
-    #test calls
+    # test calls
     log()
     x = 10
     log(x)
 
+
 def test(logfile, loglevel):
-    #test creation
+    # test creation
     log = kLogger("klogs", logfile, loglevel)
     basic_test(log)
 
+
 def test_threads(logfile, loglevel):
     log = kLogger("klogs", logfile, loglevel)
-    
+
     def thread():
         basic_test(log)
 
@@ -48,6 +50,7 @@ def test_threads(logfile, loglevel):
         print(info_string)
     basic_test(log)
 
+
 def process(logfile, loglevel):
     log = kLogger("klogs", logfile, loglevel)
     log.debug("debug message")
@@ -56,10 +59,11 @@ def process(logfile, loglevel):
     log.error("error message")
     log.critical("critical message")
 
-    #test calls
+    # test calls
     log()
     x = 10
     log(x)
+
 
 def test_process(logfile, loglevel):
     log = kLogger("klogs", logfile, loglevel)
@@ -70,7 +74,13 @@ def test_process(logfile, loglevel):
             fd.write("\n")
     else:
         print(info_string)
-    p = mp.Process(target=process, args=(logfile, loglevel,))
+    p = mp.Process(
+        target=process,
+        args=(
+            logfile,
+            loglevel,
+        ),
+    )
     p.start()
     p.join()
     info_string = "######## Outside process ########"
@@ -82,15 +92,17 @@ def test_process(logfile, loglevel):
         print(info_string)
     basic_test(log)
 
+
 def test_timestamp(logfile, loglevel):
     log = kLogger("klogs_timestamps", logfile, loglevel, True)
     basic_test(log)
 
+
 if __name__ == "__main__":
-    #argparsing 
-    argparser = argparse.ArgumentParser(description='Klogs')
-    argparser.add_argument('-f', '--file', help='Log file')
-    argparser.add_argument('-l', '--level', help='Log level')
+    # argparsing
+    argparser = argparse.ArgumentParser(description="Klogs")
+    argparser.add_argument("-f", "--file", help="Log file")
+    argparser.add_argument("-l", "--level", help="Log level")
     args = argparser.parse_args()
     info_string = "######## Testing normal usage ########"
     if args.file:

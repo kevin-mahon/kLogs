@@ -15,13 +15,14 @@ pip install klogs-util
 
 ## Usage
 ```python
-    from klogs import get_logger
-    log = get_logger(tag, level, outfile)
-    log.debug("debug statement")
-    log.info("info statement")
-    log.warning("warning statement")
-    log.error("error statement")
-    log.critical("critical statement")
+from klogs import get_logger
+
+log = get_logger(tag, level, outfile)
+log.debug("debug statement")
+log.info("info statement")
+log.warning("warning statement")
+log.error("error statement")
+log.critical("critical statement")
 ```
 Output:
 ```
