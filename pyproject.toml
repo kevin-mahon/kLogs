@@ -17,6 +17,7 @@ authors = [
     {name = "Kevin J. Mahon", email = "k.mahon.dev@gmail.com"}
 ]
 description = "Lightweight logging utility for python. Wrapper around stdlib"
+requires-python = ">=3.10"
 dependencies=[
     "executing",
     "asttokens",
@@ -28,7 +29,13 @@ Repository = "https://github.com/kevin-mahon/kLogs/tree/main"
 
 [dependency-groups]
 dev = [
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
     "ruff>=0.16.5",
     "ty>=0.0.75",
 ]
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests/unit", "tests/integration"]
 
