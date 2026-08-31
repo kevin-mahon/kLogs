@@ -14,7 +14,7 @@ class kFormatter(logging.Formatter):
 
 class kColorFormatter(kFormatter):
     # format dictionary
-    FORMATS : ClassVar[dict[int, str]] = {
+    FORMATS: ClassVar[dict[int, str]] = {
         logging.DEBUG: kFormatter.grey,
         logging.INFO: kFormatter.blue,
         logging.WARNING: kFormatter.yellow,
@@ -27,7 +27,7 @@ class kColorFormatter(kFormatter):
         self.timestamp_flag = timestamp
 
     def format(self, record):
-        color_fmt : str = self.FORMATS.get(record.levelno, kFormatter.grey)
+        color_fmt: str = self.FORMATS.get(record.levelno, kFormatter.grey)
         if self.timestamp_flag:
             formatter = logging.Formatter(
                 color_fmt + "%(asctime)s: " + kFormatter.format + kFormatter.reset,
