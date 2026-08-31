@@ -30,7 +30,8 @@ class kLogger:
     def __call__(self, *args):
         if args:
             for arg in args:
-                callFrame = inspect.currentframe().f_back
+                currentframe = inspect.currentframe()
+                callFrame = currentframe.f_back if currentframe is not None else None
                 callNode = Source.executing(callFrame).node
                 source = Source.for_frame(callFrame)
                 expression = source.asttokens().get_text(callNode.args[0])
