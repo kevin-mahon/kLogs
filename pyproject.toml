@@ -8,9 +8,12 @@ py-modules = []
 [tool.setuptools.packages]
 find = {} 
 
+[tool.setuptools.package-data]
+klogs = ["py.typed"]
+
 [project]
 name = "kLogs-util"
-version = "0.3.0"
+version = "0.4.0"
 readme = {file = "README.md", content-type = "text/markdown"}
 keywords = ["log", "logging"]
 authors = [
