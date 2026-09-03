@@ -40,20 +40,20 @@ class kLogger:
         else:
             self.logger.info("", stacklevel=2)
 
-    def debug(self, message):
-        self.logger.debug(message, stacklevel=2)
+    def debug(self, message, *args, **kwargs):
+        self.logger.debug(message, *args, stacklevel=2, **kwargs)
 
-    def info(self, message):
-        self.logger.info(message, stacklevel=2)
+    def info(self, message, *args, **kwargs):
+        self.logger.info(message, *args, stacklevel=2, **kwargs)
 
-    def warning(self, message):
-        self.logger.warning(message, stacklevel=2)
+    def warning(self, message, *args, **kwargs):
+        self.logger.warning(message, *args, stacklevel=2, **kwargs)
 
-    def error(self, message):
-        self.logger.error(message, stacklevel=2)
+    def error(self, message, *args, **kwargs):
+        self.logger.error(message, *args, stacklevel=2, **kwargs)
 
-    def critical(self, message):
-        self.logger.critical(message, stacklevel=2, stack_info=True)
+    def critical(self, message, *args, **kwargs):
+        self.logger.critical(message, *args, stacklevel=2, stack_info=True, **kwargs)
 
     def setLevel(self, level):
         if level:

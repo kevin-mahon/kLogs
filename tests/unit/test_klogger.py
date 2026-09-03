@@ -86,6 +86,21 @@ def test_add_file_appends_an_extra_handler(unique_tag, tmp_path):
     assert len(log.logger.handlers) == 2
 
 
+def test_str_formatting(unique_tag, caplog):
+    log = kLogger(unique_tag)
+
+    with caplog.at_level(logging.DEBUG, logger=unique_tag):
+        log.debug("hello %s", "world")
+        log.info("hello %s", "world")
+        log.warning("hello %s", "world")
+        log.error("hello %s", "world")
+        log.critical("hello %s", "world")
+
+    assert len(caplog.records) == 5
+    assert caplog.records[-1].getMessage() == "hello world"
+    assert caplog.records[-1].levelno == logging.CRITICAL
+
+
 def test_get_logger_forwards_arguments_to_klogger(unique_tag, tmp_path):
     logfile = tmp_path / "g.log"
 
