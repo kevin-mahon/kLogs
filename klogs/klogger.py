@@ -29,13 +29,13 @@ class kLogger:
 
     def __call__(self, *args):
         if args:
-            for arg in args:
-                currentframe = inspect.currentframe()
-                callFrame = currentframe.f_back if currentframe is not None else None
-                if callFrame:
-                    callNode = Source.executing(callFrame).node
-                    source = Source.for_frame(callFrame)
-                    expression = source.asttokens().get_text(callNode.args[0])
+            currentframe = inspect.currentframe()
+            callFrame = currentframe.f_back if currentframe is not None else None
+            if callFrame:
+                callNode = Source.executing(callFrame).node
+                source = Source.for_frame(callFrame)
+                for i, arg in enumerate(args):
+                    expression = source.asttokens().get_text(callNode.args[i])
                     self.logger.info(f"{expression} | {arg}", stacklevel=2)
         else:
             self.logger.info("", stacklevel=2)

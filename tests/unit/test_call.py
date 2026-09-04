@@ -22,3 +22,17 @@ def test_call_with_arg_logs_the_source_expression_and_value(unique_tag, caplog):
         log(value)
 
     assert caplog.records[-1].message == "value | 10"
+
+
+def test_call_with_multiple_args_pairs_each_with_its_own_expression(
+    unique_tag, caplog
+):
+    log = kLogger(unique_tag)
+    x = 1
+    y = 2
+
+    with caplog.at_level(logging.INFO, logger=unique_tag):
+        log(x, y)
+
+    messages = [record.message for record in caplog.records[-2:]]
+    assert messages == ["x | 1", "y | 2"]
