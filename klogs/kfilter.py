@@ -18,6 +18,23 @@ class kFilter(ABC):
     def filter(self, msg: str) -> bool:
         pass
 
+    def __and__(self, other: "kFilter | str") -> "kAndFilter":
+        return kAndFilter(self, as_filter(other))
+
+    def __rand__(self, other: "kFilter | str") -> "kAndFilter":
+        return kAndFilter(as_filter(other), self)
+
+    def __or__(self, other: "kFilter | str") -> "kOrFilter":
+        return kOrFilter(self, as_filter(other))
+
+    def __ror__(self, other: "kFilter | str") -> "kOrFilter":
+        return kOrFilter(as_filter(other), self)
+
+
+def as_filter(value: "kFilter | str") -> kFilter:
+    """Coerce a bare string into a kWordFilter; pass kFilters through unchanged."""
+    return kWordFilter(value) if isinstance(value, str) else value
+
 
 class kWordFilter(kFilter):
     def __init__(self, exclude: str):

@@ -100,6 +100,46 @@ def test_add_filter_drops_matching_records(unique_tag, caplog):
     assert "contains secret data" not in messages
 
 
+def test_add_filter_accepts_a_bare_string(unique_tag, caplog):
+    log = kLogger(unique_tag)
+    log.addFilter("secret")
+
+    with caplog.at_level(logging.DEBUG, logger=unique_tag):
+        log.info("this is fine")
+        log.info("contains secret data")
+
+    messages = [record.getMessage() for record in caplog.records]
+    assert "this is fine" in messages
+    assert "contains secret data" not in messages
+
+
+def test_add_filter_with_multiple_args_excludes_on_any_match(unique_tag, caplog):
+    log = kLogger(unique_tag)
+    log.addFilter("foo", "bar", "baz")
+
+    with caplog.at_level(logging.DEBUG, logger=unique_tag):
+        log.info("clean message")
+        log.info("has foo in it")
+        log.info("has bar in it")
+        log.info("has baz in it")
+
+    messages = [record.getMessage() for record in caplog.records]
+    assert messages == ["clean message"]
+
+
+def test_add_filter_with_an_and_combined_filter_requires_all_words(unique_tag, caplog):
+    log = kLogger(unique_tag)
+    log.addFilter(kWordFilter("foo") & kWordFilter("bar"))
+
+    with caplog.at_level(logging.DEBUG, logger=unique_tag):
+        log.info("has foo only")
+        log.info("has bar only")
+        log.info("has foo and bar")
+
+    messages = [record.getMessage() for record in caplog.records]
+    assert messages == ["has foo only", "has bar only"]
+
+
 def test_add_filter_matches_against_the_formatted_message(unique_tag, caplog):
     # The filter should see the %-substituted message ("test teststring"),
     # not the raw template ("test %s"), so it must catch this record.

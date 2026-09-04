@@ -3,7 +3,7 @@ import logging
 
 from executing import Source
 
-from .kfilter import kFilter
+from .kfilter import as_filter, kFilter
 from .kformatter import kColorFormatter, kNoColorFormatter
 
 
@@ -100,10 +100,23 @@ class kLogger:
         ch.setLevel(self.loglevel.upper())
         self.logger.addHandler(ch)
 
-    def addFilter(self, kfilter: kFilter):
-        """Drop records whose formatted message matches kfilter, across
-        every handler (stream and any files added via addFile/setFile)."""
-        self.logger.addFilter(_ExcludeFilterAdapter(kfilter))
+    def addFilter(self, *kfilters: kFilter | str):
+        """Drop records whose formatted message matches any of kfilters,
+        across every handler (stream and any files added via addFile/setFile).
+
+        A bare string is treated as a kWordFilter, e.g.
+        log.addFilter("secret") == log.addFilter(kWordFilter("secret")).
+
+        Passing several filters excludes a record that matches ANY of
+        them — each is registered as its own stdlib filter, and logging
+        keeps a record only if it survives every registered filter, which
+        is equivalent to ORing the exclude conditions together. To
+        require ALL conditions before excluding, combine filters with
+        `&` first: log.addFilter(kWordFilter("a") & kWordFilter("b")).
+        `|` is also available for an explicit OR of two filters.
+        """
+        for kfilter in kfilters:
+            self.logger.addFilter(_ExcludeFilterAdapter(as_filter(kfilter)))
 
 
 def get_logger(tag, timestamp=False, logfile=None, loglevel=None):
