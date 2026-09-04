@@ -2,6 +2,7 @@ import logging
 
 import pytest
 
+from klogs.kfilter import kWordFilter
 from klogs.kformatter import kColorFormatter, kNoColorFormatter
 from klogs.klogger import get_logger, kLogger
 
@@ -84,6 +85,34 @@ def test_add_file_appends_an_extra_handler(unique_tag, tmp_path):
     log.addFile(str(tmp_path / "extra.log"))
 
     assert len(log.logger.handlers) == 2
+
+
+def test_add_filter_drops_matching_records(unique_tag, caplog):
+    log = kLogger(unique_tag)
+    log.addFilter(kWordFilter("secret"))
+
+    with caplog.at_level(logging.DEBUG, logger=unique_tag):
+        log.info("this is fine")
+        log.info("contains secret data")
+
+    messages = [record.getMessage() for record in caplog.records]
+    assert "this is fine" in messages
+    assert "contains secret data" not in messages
+
+
+def test_add_filter_matches_against_the_formatted_message(unique_tag, caplog):
+    # The filter should see the %-substituted message ("test teststring"),
+    # not the raw template ("test %s"), so it must catch this record.
+    log = kLogger(unique_tag)
+    log.addFilter(kWordFilter("teststring"))
+
+    with caplog.at_level(logging.DEBUG, logger=unique_tag):
+        log.debug("test %s", "teststring")
+        log.debug("test %s", "harmless")
+
+    messages = [record.getMessage() for record in caplog.records]
+    assert "test teststring" not in messages
+    assert "test harmless" in messages
 
 
 def test_str_formatting(unique_tag, caplog):

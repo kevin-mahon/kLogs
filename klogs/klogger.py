@@ -3,7 +3,29 @@ import logging
 
 from executing import Source
 
+from .kfilter import kFilter
 from .kformatter import kColorFormatter, kNoColorFormatter
+
+
+class _ExcludeFilterAdapter(logging.Filter):
+    """Bridges a kFilter into the stdlib logging.Filter contract.
+
+    kFilter.filter(msg) returns True when msg matches the filter's
+    exclude condition, but logging.Filter.filter(record) returns True
+    when the record should be *kept* — so the result is inverted here.
+
+    The record is rendered with record.getMessage() rather than
+    record.msg, so %-style args are substituted in first: a filter for
+    "teststring" correctly matches log.debug("test %s", "teststring"),
+    which would otherwise only ever see the raw "test %s" template.
+    """
+
+    def __init__(self, kfilter: kFilter):
+        super().__init__()
+        self.kfilter = kfilter
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        return not self.kfilter.filter(record.getMessage())
 
 
 class kLogger:
@@ -77,6 +99,11 @@ class kLogger:
         ch.setFormatter(kNoColorFormatter())
         ch.setLevel(self.loglevel.upper())
         self.logger.addHandler(ch)
+
+    def addFilter(self, kfilter: kFilter):
+        """Drop records whose formatted message matches kfilter, across
+        every handler (stream and any files added via addFile/setFile)."""
+        self.logger.addFilter(_ExcludeFilterAdapter(kfilter))
 
 
 def get_logger(tag, timestamp=False, logfile=None, loglevel=None):

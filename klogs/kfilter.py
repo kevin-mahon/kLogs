@@ -3,6 +3,14 @@ from abc import ABC, abstractmethod
 
 
 class kFilter(ABC):
+    """Base class for message filters.
+
+    filter(msg) returns True when msg matches this filter's condition,
+    meaning the message should be *excluded* from log output. This is
+    the opposite of stdlib logging.Filter, where True means *keep* the
+    record — see kLogger.addFilter, which bridges the two.
+    """
+
     def __init__(self):
         pass
 
